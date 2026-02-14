@@ -86,20 +86,165 @@
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            /* REMOVED FILTER FOR PERFORMANCE: filter: drop-shadow(0 0 20px rgba(60, 20, 60, 0.6)); */
         }
 
         .trunk,
         .branch {
             position: absolute;
             bottom: 0;
-            /* Dark silhouette against sunset */
-            background: linear-gradient(90deg, #1b0a1a, #2b1225, #1b0a1a);
+            /* Simple background for performance */
+            background: #2b1225;
             border-radius: 50px;
             transform-origin: bottom center;
-            will-change: transform;
-            /* PERFORMANCE BOOST */
+            /* Omit will-change to save memory on mobile */
         }
+
+        .trunk {
+            height: 45vh;
+            width: 5vh;
+            /* Increased from 3vh */
+            transform: scaleY(0);
+            animation: growTrunk 3.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 14.5s;
+        }
+
+        .branch {
+            height: 20vh;
+            width: 2.5vh;
+            /* Increased from 1.5vh */
+            transform: scaleY(0);
+            animation: growBranch 4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 15.5s, swayBranch 8s ease-in-out infinite alternate 19s;
+            opacity: 0;
+        }
+
+        .branch.left {
+            transform: rotate(-35deg);
+            left: 0.5vh;
+            bottom: 70%;
+            height: 75%;
+        }
+
+        .branch.right {
+            transform: rotate(35deg);
+            right: 0.5vh;
+            bottom: 65%;
+            height: 75%;
+        }
+
+        .branch .branch {
+            height: 70%;
+            bottom: 85%;
+            width: 1.8vh;
+            background: #3d1a33;
+            /* Slightly lighter for depth */
+            animation-delay: 16s;
+        }
+
+        .branch .branch .branch {
+            height: 60%;
+            bottom: 80%;
+            width: 1.2vh;
+            background: #4a2040;
+            animation-delay: 16.5s;
+        }
+
+        /* Heart-Shaped Blooms */
+        .flower {
+            position: absolute;
+            top: -2vh;
+            left: -1.5vh;
+            width: 3vh;
+            height: 3vh;
+            opacity: 0;
+            /* Removed swayFlower/pulseHeart for massive performance gain on huge trees */
+            animation: bloom 2.5s ease-out 17.5s forwards;
+        }
+
+        /* Left lobe */
+        .flower::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 1.5vh;
+            width: 1.5vh;
+            height: 2.4vh;
+            background: #ff4081;
+            /* Hot Pink */
+            border-radius: 1.5vh 1.5vh 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+            /* REMOVED box-shadow for performance */
+        }
+
+        /* Right lobe */
+        .flower::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1.5vh;
+            height: 2.4vh;
+            background: #ff4081;
+            border-radius: 1.5vh 1.5vh 0 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+            /* REMOVED box-shadow for performance */
+        }
+
+        @keyframes growTrunk {
+            0% {
+                transform: scaleY(0);
+            }
+
+            100% {
+                transform: scaleY(1);
+            }
+        }
+
+        @keyframes growBranch {
+            0% {
+                transform: scaleY(0) rotate(var(--angle, 0deg));
+                opacity: 0;
+            }
+
+            100% {
+                transform: scaleY(1) rotate(var(--angle, 0deg));
+                opacity: 1;
+            }
+        }
+
+        @keyframes swayBranch {
+            0% {
+                transform: rotate(calc(var(--angle, 0deg) - 2deg));
+            }
+
+            /* Reduced sway */
+            100% {
+                transform: rotate(calc(var(--angle, 0deg) + 2deg));
+            }
+        }
+
+        @keyframes swayFlower {
+            0% {
+                transform: rotate(-10deg);
+            }
+
+            100% {
+                transform: rotate(10deg);
+            }
+        }
+
+        @keyframes bloom {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
 
         .trunk {
             height: 45vh;
@@ -675,7 +820,7 @@
         <div class="message msg-2">Words Can't Express How Much I Miss You</div>
         <div class="message msg-3">I Got The Tree For You</div>
         <div class="message msg-final">
-            <div class="final-line1">Thank You For Being There, Love You</div>
+            <div class="final-line1">Thank You For Being There,I Love You</div>
             <div class="final-name">Adjoa Ofosua</div>
         </div>
     </div>
