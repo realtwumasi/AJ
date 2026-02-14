@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day</title>
+    <style>
+        /* Modern Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Great Vibes', 'Brush Script MT', cursive;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* ROMANTIC TWILIGHT: Deep Purple -> Pink -> Warm Peach -> Gold */
+            background: linear-gradient(180deg, #2E1437 0%, #5D1F48 40%, #941651 70%, #FFB7B2 90%, #FFD6C2 100%);
+            background-size: 200% 200%;
+            animation: gradientSky 20s ease infinite;
+            position: relative;
+        }
+
+        @keyframes gradientSky {
+            0% {
+                background-position: 50% 0%;
+            }
+
+            50% {
+                background-position: 50% 100%;
+            }
+
+            100% {
+                background-position: 50% 0%;
+            }
+        }
+
+        /* Fireflies / Stars */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff;
+            opacity: 0;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+
+        /* ----- TREE ----- */
+        .tree-container {
+            position: absolute;
+            bottom: -5vh;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            pointer-events: none;
+            width: 0;
+            height: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            filter: drop-shadow(0 0 20px rgba(60, 20, 60, 0.6));
+        }
+
+        .trunk,
+        .branch {
+            position: absolute;
+            bottom: 0;
+            /* Dark silhouette against sunset */
+            background: linear-gradient(90deg, #1b0a1a, #2b1225, #1b0a1a);
+            border-radius: 50px;
+            transform-origin: bottom center;
+        }
+
+        .trunk {
+            height: 45vh;
+            width: 5vh;
+            /* Increased from 3vh */
+            transform: scaleY(0);
+            animation: growTrunk 3.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 14.5s;
+        }
+
+        .branch {
+            height: 20vh;
+            width: 2.5vh;
+            /* Increased from 1.5vh */
+            transform: scaleY(0);
+            animation: growBranch 4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 15.5s, swayBranch 8s ease-in-out infinite alternate 19s;
+            opacity: 0;
+            background: linear-gradient(90deg, #2b1225, #4a2040, #2b1225);
+        }
+
+        .branch.left {
+            transform: rotate(-35deg);
+            left: 0.5vh;
+            bottom: 70%;
+            height: 75%;
+        }
+
+        .branch.right {
+            transform: rotate(35deg);
+            right: 0.5vh;
+            bottom: 65%;
+            height: 75%;
+        }
+
+        .branch .branch {
+            height: 70%;
+            bottom: 85%;
+            width: 1.8vh;
+            /* Increased from 1vh */
+            background: linear-gradient(90deg, #3d1a33, #5e284f, #3d1a33);
+            animation-delay: 16s;
+        }
+
+        .branch .branch .branch {
+            height: 60%;
+            bottom: 80%;
+            width: 1.2vh;
+            /* Increased from 0.6vh */
+            background: linear-gradient(90deg, #4a2040, #733161, #4a2040);
+            animation-delay: 16.5s;
+        }
+
+        /* Heart-Shaped Blooms */
+        .flower {
+            position: absolute;
+            top: -2vh;
+            left: -1.5vh;
+            width: 3vh;
+            height: 3vh;
+            /* No background on container, pseudo-elements create heart */
+            opacity: 0;
+            animation: bloom 2.5s ease-out 17.5s forwards, swayFlower 5s ease-in-out infinite alternate 20s, pulseHeart 2s infinite 20s;
+        }
+
+        /* Left lobe */
+        .flower::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 1.5vh;
+            width: 1.5vh;
+            height: 2.4vh;
+            background: #ff4081;
+            /* Hot Pink */
+            border-radius: 1.5vh 1.5vh 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+            box-shadow: 0 0 5px #ff4081;
+        }
+
+        /* Right lobe */
+        .flower::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1.5vh;
+            height: 2.4vh;
+            background: #ff4081;
+            border-radius: 1.5vh 1.5vh 0 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+            box-shadow: 0 0 5px #ff4081;
+        }
+
+        @keyframes growTrunk {
+            0% {
+                transform: scaleY(0);
+            }
+
+            100% {
+                transform: scaleY(1);
+            }
+        }
+
+        @keyframes growBranch {
+            0% {
+                transform: scaleY(0) rotate(var(--angle, 0deg));
+                opacity: 0;
+            }
+
+            100% {
+                transform: scaleY(1) rotate(var(--angle, 0deg));
+                opacity: 1;
+            }
+        }
+
+        @keyframes swayBranch {
+            0% {
+                transform: rotate(calc(var(--angle, 0deg) - 3deg));
+            }
+
+            100% {
+                transform: rotate(calc(var(--angle, 0deg) + 3deg));
+            }
+        }
+
+        @keyframes swayFlower {
+            0% {
+                transform: rotate(-10deg);
+            }
+
+            100% {
+                transform: rotate(10deg);
+            }
+        }
+
+        @keyframes bloom {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulseHeart {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+
+        /* ----- FALLING PETALS ----- */
+        .petal {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff80ab;
+            border-radius: 50% 0 50% 0;
+            top: -10vh;
+            z-index: 1;
+            opacity: 0;
+            animation: fall 10s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -10%;
+                transform: translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.8;
+            }
+
+            100% {
+                top: 110%;
+                transform: translateX(50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+
+        /* ----- TEXT SEQUENCE ----- */
+        .story-container {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            width: 100%;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .message {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            /* Elegant, soft font for messages */
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+            color: #fff;
+            /* White text for contrast on twilight */
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.8), 0 0 20px rgba(255, 20, 147, 0.5);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            letter-spacing: 2px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Cinematic Blur Transitions */
+        @keyframes cinematicFade {
+            0% {
+                opacity: 0;
+                filter: blur(10px);
+                transform: scale(1.1);
+            }
+
+            20% {
+                opacity: 1;
+                filter: blur(0);
+                transform: scale(1);
+            }
+
+            80% {
+                opacity: 1;
+                filter: blur(0);
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                filter: blur(10px);
+                transform: scale(0.9);
+            }
+        }
+
+        .msg-1 {
+            animation: cinematicFade 4s ease-in-out forwards 0.5s;
+        }
+
+        .msg-2 {
+            animation: cinematicFade 5s ease-in-out forwards 4.5s;
+        }
+
+        .msg-3 {
+            animation: cinematicFade 4s ease-in-out forwards 10s;
+        }
+
+        /* Final Message */
+        .msg-final {
+            animation: finalReveal 4s ease-out forwards 18s;
+        }
+
+        .final-line1 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            margin-bottom: 2vh;
+            color: #ffebee;
+            text-shadow: 0 0 10px rgba(255, 192, 203, 0.6);
+        }
+
+        .final-name {
+            font-family: 'Great Vibes', cursive;
+            /* Using cursive for name */
+            font-size: clamp(4rem, 10vw, 6rem);
+            /* Glowing Golden-Pink */
+            background: linear-gradient(to right, #FFD700, #FF69B4, #FFD700);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+            animation: shimmerName 3s linear infinite;
+        }
+
+        @keyframes finalReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+                filter: blur(5px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes shimmerName {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 200% 50%;
+            }
+        }
+
+        /* Mobile Responsiveness Polish */
+        @media screen and (max-width: 768px) {
+            .trunk {
+                height: 35vh;
+                /* Slightly smaller to fit text */
+                width: 2.5vh;
+            }
+
+            .branch {
+                height: 15vh;
+                width: 1.5vh;
+            }
+
+            .story-container {
+                top: 20%;
+                /* Move higher up on mobile */
+                padding: 0 15px;
+                /* Ensure text doesn't touch edges */
+            }
+
+            .message {
+                font-size: clamp(1.8rem, 6vw, 2.5rem);
+            }
+
+            .final-name {
+                font-size: clamp(3rem, 12vw, 4.5rem);
+            }
+
+            /* Adjust flower size for mobile */
+            .flower {
+                width: 2.5vh;
+                height: 2.5vh;
+                top: -1.5vh;
+                left: -1.2vh;
+            }
+
+            .flower::before,
+            .flower::after {
+                width: 1.25vh;
+                height: 2vh;
+                border-radius: 1.25vh 1.25vh 0 0;
+            }
+        }
+
+        /* Landscape Mode Tweak (Short Screens) */
+        @media screen and (max-height: 600px) {
+            .story-container {
+                top: 15%;
+            }
+
+            .trunk {
+                height: 40vh;
+            }
+        }
+    </style>
+    <!-- Import Google Font for Great Vibes (Cursive) if allowed, trying system fallback first but key for romance -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Stars/Fireflies -->
+    <div class="sparkle" style="top: 20%; left: 20%; animation-delay: 0s;"></div>
+    <div class="sparkle" style="top: 10%; left: 80%; animation-delay: 1s;"></div>
+    <div class="sparkle" style="top: 40%; left: 10%; animation-delay: 2s;"></div>
+    <div class="sparkle" style="top: 60%; left: 90%; animation-delay: 3s;"></div>
+    <div class="sparkle" style="top: 80%; left: 30%; animation-delay: 1.5s;"></div>
+    <div class="sparkle" style="top: 15%; left: 50%; animation-delay: 2.5s;"></div>
+
+    <!-- Falling Petals -->
+    <div class="petal" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="petal" style="left: 30%; animation-delay: 2s;"></div>
+    <div class="petal" style="left: 70%; animation-delay: 4s;"></div>
+    <div class="petal" style="left: 50%; animation-delay: 6s;"></div>
+    <div class="petal" style="left: 90%; animation-delay: 1s;"></div>
+    <div class="petal" style="left: 20%; animation-delay: 5s;"></div>
+    <div class="petal" style="left: 60%; animation-delay: 3s;"></div>
+    <div class="petal" style="left: 80%; animation-delay: 7s;"></div>
+
+    <!-- Tree Structure -->
+    <div class="tree-container">
+        <div class="trunk">
+            <!-- LOWER BRANCHES -->
+            <div class="branch left" style="--angle: -45deg; bottom: 20%; height: 40%;">
+                <div class="branch left" style="--angle: -30deg;">
+                    <div class="flower"></div>
+                </div>
+                <div class="branch right" style="--angle: 20deg;">
+                    <div class="flower"></div>
+                </div>
+            </div>
+            <div class="branch right" style="--angle: 45deg; bottom: 25%; height: 35%;">
+                <div class="branch right" style="--angle: 30deg;">
+                    <div class="flower"></div>
+                </div>
+                <div class="branch left" style="--angle: -20deg;">
+                    <div class="flower"></div>
+                </div>
+            </div>
+
+            <!-- MIDDLE BRANCHES (Main Structure) -->
+            <div class="branch left" style="--angle: -35deg; bottom: 45%; height: 60%;">
+                <div class="branch left" style="--angle: -30deg;">
+                    <div class="branch left" style="--angle: -20deg;">
+                        <div class="flower"></div>
+                    </div>
+                    <div class="branch right" style="--angle: 25deg;">
+                        <div class="flower"></div>
+                    </div>
+                    <div class="flower"></div>
+                </div>
+                <div class="branch right" style="--angle: 35deg;">
+                    <div class="branch left" style="--angle: -15deg;">
+                        <div class="flower"></div>
+                    </div>
+                    <div class="branch right" style="--angle: 20deg;">
+                        <div class="flower"></div>
+                    </div>
+                    <div class="flower"></div>
+                </div>
+            </div>
+
+            <div class="branch right" style="--angle: 35deg; bottom: 50%; height: 55%;">
+                <div class="branch left" style="--angle: -30deg;">
+                    <div class="branch right" style="--angle: 20deg;">
+                        <div class="flower"></div>
+                    </div>
+                    <div class="flower"></div>
+                </div>
+                <div class="branch right" style="--angle: 30deg;">
+                    <div class="branch left" style="--angle: -20deg;">
+                        <div class="flower"></div>
+                    </div>
+                    <div class="branch right" style="--angle: 20deg;">
+                        <div class="flower"></div>
+                        <div class="branch left" style="--angle: -10deg; height: 50%;">
+                            <div class="flower"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOP / CANOPY BRANCHES -->
+            <div class="branch" style="--angle: 0deg; height: 60%; bottom: 85%; width: 0.8vh;">
+                <div class="branch left" style="--angle: -25deg;">
+                    <div class="branch left" style="--angle: -20deg;">
+                        <div class="flower"></div>
+                    </div>
+                    <div class="flower"></div>
+                </div>
+                <div class="branch right" style="--angle: 25deg;">
+                    <div class="branch right" style="--angle: 20deg;">
+                        <div class="flower"></div>
+                    </div>
+                    <div class="flower"></div>
+                </div>
+                <div class="branch" style="--angle: 0deg; height: 40%; bottom: 90%;">
+                    <div class="flower" style="top: -2.5vh; left: -1vh;"></div>
+                </div>
+            </div>
+
+            <!-- FILLER BRANCHES FOR VOLUME -->
+            <div class="branch left" style="--angle: -20deg; bottom: 65%; height: 45%; opacity: 0.8;">
+                <div class="flower" style="top: -10px;"></div>
+            </div>
+            <div class="branch right" style="--angle: 20deg; bottom: 60%; height: 50%; opacity: 0.8;">
+                <div class="flower" style="top: -10px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Story Sequence -->
+    <div class="story-container">
+        <div class="message msg-1">Happy Val's Day Love</div>
+        <div class="message msg-2">Words Can't Explain How Much I Miss You</div>
+        <div class="message msg-3">I Got The Tree For You You</div>
+        <div class="message msg-final">
+            <div class="final-line1">Thank You For Being There,I Love You</div>
+            <div class="final-name">Adjoa Ofosua</div>
+        </div>
+    </div>
+
+</body>
+
+</html>
