@@ -52,6 +52,8 @@
             box-shadow: 0 0 10px #fff;
             opacity: 0;
             animation: twinkle 5s infinite;
+            will-change: transform, opacity;
+            /* PERFORMANCE BOOST */
         }
 
         @keyframes twinkle {
@@ -84,7 +86,7 @@
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            filter: drop-shadow(0 0 20px rgba(60, 20, 60, 0.6));
+            /* REMOVED FILTER FOR PERFORMANCE: filter: drop-shadow(0 0 20px rgba(60, 20, 60, 0.6)); */
         }
 
         .trunk,
@@ -95,6 +97,8 @@
             background: linear-gradient(90deg, #1b0a1a, #2b1225, #1b0a1a);
             border-radius: 50px;
             transform-origin: bottom center;
+            will-change: transform;
+            /* PERFORMANCE BOOST */
         }
 
         .trunk {
@@ -157,6 +161,8 @@
             /* No background on container, pseudo-elements create heart */
             opacity: 0;
             animation: bloom 2.5s ease-out 17.5s forwards, swayFlower 5s ease-in-out infinite alternate 20s, pulseHeart 2s infinite 20s;
+            will-change: transform, opacity;
+            /* PERFORMANCE BOOST */
         }
 
         /* Left lobe */
@@ -270,6 +276,8 @@
             z-index: 1;
             opacity: 0;
             animation: fall 10s linear infinite;
+            will-change: transform, opacity;
+            /* PERFORMANCE BOOST */
         }
 
         @keyframes fall {
@@ -664,10 +672,10 @@
     <!-- Story Sequence -->
     <div class="story-container">
         <div class="message msg-1">Happy Val's Day Love</div>
-        <div class="message msg-2">Words Can't Explain How Much I Miss You</div>
-        <div class="message msg-3">I Got The Tree For You Tho</div>
+        <div class="message msg-2">Words Can't Express How Much I Miss You</div>
+        <div class="message msg-3">I Got The Tree For You</div>
         <div class="message msg-final">
-            <div class="final-line1">Thank You For Being There,I Love You</div>
+            <div class="final-line1">Thank You For Being There, Love You</div>
             <div class="final-name">Adjoa Ofosua</div>
         </div>
     </div>
